@@ -5,23 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
 import com.example.android.politicalpreparedness.databinding.FragmentLaunchBinding
+import com.example.android.politicalpreparedness.repository.ElectionRepository
 
-class ElectionsFragment: Fragment() {
+class ElectionsFragment : Fragment() {
 
-    //TODO: Declare ViewModel
+    private lateinit var viewModel: ElectionsViewModel
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
         val binding = FragmentElectionBinding.inflate(inflater)
+
+        val database = ElectionDatabase.getInstance(requireContext())
+        val electionRepository = ElectionRepository(database)
+        viewModel = ViewModelProvider(this, ElectionsViewModelFactory(electionRepository)).get(ElectionsViewModel::class.java)
+
         binding.lifecycleOwner = this
-
-        //TODO: Add ViewModel values and create ViewModel
-
-        //TODO: Add binding values
+        binding.viewModel = viewModel
 
         //TODO: Link elections to voter info
 
