@@ -33,7 +33,7 @@ private val retrofit = Retrofit.Builder()
 
 interface CivicsApiService {
     @GET("elections")
-    suspend fun getElections(): ElectionResponse
+    suspend fun getElectionResponse(): ElectionResponse
 
     //TODO: Add voterinfo API Call
 
