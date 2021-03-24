@@ -36,11 +36,9 @@ class ElectionsFragment : Fragment() {
             navToVoterInfo(it.id, it.division)
         })
 
-        //TODO: Link elections to voter info
-
-        //TODO: Initiate recycler adapters
-
-        //TODO: Populate recycler adapters
+        binding.savedElectionsRecycler.adapter = ElectionListAdapter(ElectionListAdapter.ElectionListener {
+            navToVoterInfo(it.id, it.division)
+        })
 
         return binding.root
     }
@@ -48,7 +46,4 @@ class ElectionsFragment : Fragment() {
     private fun navToVoterInfo(electionId: Int, division: Division) {
         findNavController().navigate(ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(electionId, division))
     }
-
-    //TODO: Refresh adapters when fragment loads
-
 }

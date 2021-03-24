@@ -22,7 +22,4 @@ class ElectionsViewModel(private val electionRepository: ElectionRepository) : V
             }
         }
     }
-
-    //TODO: Create functions to navigate to saved or upcoming election voter info
-
 }
