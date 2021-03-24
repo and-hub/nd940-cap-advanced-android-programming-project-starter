@@ -4,6 +4,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.politicalpreparedness.network.models.Election
+import com.example.android.politicalpreparedness.utils.toFormattedString
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -15,6 +16,5 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Election>?) {
 
 @BindingAdapter("electionDay")
 fun bindTextViewToElectionDay(textView: TextView, electionDay: Date){
-    val dateFormat = SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault())
-    textView.text = dateFormat.format(electionDay)
+    textView.text = electionDay.toFormattedString()
 }

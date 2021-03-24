@@ -8,7 +8,7 @@ class VoterInfoViewModelFactory(private val electionRepository: ElectionReposito
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(VoterInfoViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ElectionsViewModel(electionRepository) as T
+            return VoterInfoViewModel(electionRepository) as T
         }
         throw IllegalArgumentException("Unable to construct ViewModel")
     }
