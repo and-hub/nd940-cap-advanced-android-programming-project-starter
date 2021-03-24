@@ -15,9 +15,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:onClick="@{() -> onClickListener.onClick(election)}"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> onClickListener.onClick(election)}">
 
         <TextView
             android:id="@+id/name_text"
@@ -39,12 +39,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="placeholder-date"
             android:layout_marginBottom="8dp"
+            app:electionDay="@{election.electionDay}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name_text"
-            tools:text="2021-04-06" />
+            tools:text="Wed, 4 Jul 2001" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
