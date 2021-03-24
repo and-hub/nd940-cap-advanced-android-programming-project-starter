@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
 import com.example.android.politicalpreparedness.databinding.FragmentLaunchBinding
+import com.example.android.politicalpreparedness.election.adapter.ElectionListAdapter
 import com.example.android.politicalpreparedness.repository.ElectionRepository
 
 class ElectionsFragment : Fragment() {
@@ -26,7 +27,12 @@ class ElectionsFragment : Fragment() {
         viewModel = ViewModelProvider(this, ElectionsViewModelFactory(electionRepository)).get(ElectionsViewModel::class.java)
 
         binding.lifecycleOwner = this
+
         binding.viewModel = viewModel
+
+        binding.upcomingElectionsRecycler.adapter = ElectionListAdapter(ElectionListAdapter.ElectionListener {
+            //TODO: navigate to voterInfoFragment
+        })
 
         //TODO: Link elections to voter info
 

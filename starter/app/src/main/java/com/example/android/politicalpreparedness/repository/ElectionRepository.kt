@@ -9,11 +9,13 @@ import kotlinx.coroutines.withContext
 
 class ElectionRepository(private val database: ElectionDatabase) {
 
-    val elections: LiveData<List<Election>> = database.electionDao.getElections()
+    val allElections: LiveData<List<Election>> = database.electionDao.getAllElections()
+    val savedElections: LiveData<List<Election>> = database.electionDao.getSavedElections()
 
     suspend fun refreshElections() {
         withContext(Dispatchers.IO){
             val elections = CivicsApi.retrofitService.getElectionResponse().elections
+            database.electionDao.deleteUnsavedElections()
             database.electionDao.insertAll(elections)
         }
     }
