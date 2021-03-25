@@ -1,10 +1,12 @@
 package com.example.android.politicalpreparedness.election
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.network.models.Division
 import com.example.android.politicalpreparedness.repository.ElectionRepository
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class VoterInfoViewModel(private val electionRepository: ElectionRepository) : ViewModel() {
 
@@ -13,7 +15,11 @@ class VoterInfoViewModel(private val electionRepository: ElectionRepository) : V
     fun getVoterInfo(division: Division, electionId: Int) {
         val address = "${division.state}, ${division.country}"
         viewModelScope.launch {
-            electionRepository.getVoterInfo(address, electionId)
+            try {
+                electionRepository.getVoterInfo(address, electionId)
+            } catch (e: Exception) {
+                Log.e("VoterInfoViewModel", e.message.toString())
+            }
         }
     }
 
