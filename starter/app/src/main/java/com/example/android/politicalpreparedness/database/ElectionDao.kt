@@ -2,6 +2,7 @@ package com.example.android.politicalpreparedness.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.android.politicalpreparedness.database.models.FollowElection
 import com.example.android.politicalpreparedness.network.models.Election
 
 @Dao
@@ -13,7 +14,7 @@ interface ElectionDao {
     @Query("SELECT * FROM election_table ORDER BY electionDay")
     fun getAllElections(): LiveData<List<Election>>
 
-    @Query("SELECT * FROM election_table WHERE isSaved = 1 ORDER BY electionDay")
+    @Query("SELECT * FROM election_table WHERE isFollowed = 1 ORDER BY electionDay")
     fun getSavedElections(): LiveData<List<Election>>
 
     @Query("SELECT * FROM election_table WHERE id = :id")
@@ -22,9 +23,12 @@ interface ElectionDao {
     @Delete
     fun delete(election: Election)
 
-    @Query("DELETE FROM election_table WHERE isSaved = 0")
+    @Query("DELETE FROM election_table WHERE isFollowed = 0")
     fun deleteUnsavedElections()
 
     @Query("DELETE FROM election_table")
     fun clear()
+
+    @Update(entity = Election::class)
+    fun setElectionFollowed(followElection: FollowElection): Int
 }

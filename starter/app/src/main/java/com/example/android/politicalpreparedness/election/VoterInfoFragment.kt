@@ -11,10 +11,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import com.example.android.politicalpreparedness.repository.ElectionRepository
+import com.example.android.politicalpreparedness.utils.ElectionFollowingStatus
+import com.example.android.politicalpreparedness.utils.ElectionFollowingStatus.*
 import com.example.android.politicalpreparedness.utils.toFormattedString
 
 class VoterInfoFragment : Fragment() {
@@ -38,6 +41,7 @@ class VoterInfoFragment : Fragment() {
         val division = VoterInfoFragmentArgs.fromBundle(requireArguments()).argDivision
         val electionId = VoterInfoFragmentArgs.fromBundle(requireArguments()).argElectionId
         viewModel.getVoterInfo(division, electionId)
+        viewModel.getCurrentFollowingStatus(electionId)
 
         viewModel.voterInfo.observe(viewLifecycleOwner) {
             it?.let {
@@ -66,9 +70,24 @@ class VoterInfoFragment : Fragment() {
             }
         }
 
-
-        //TODO: Handle save button UI state
-        //TODO: cont'd Handle save button clicks
+        viewModel.electionFollowingStatus.observe(viewLifecycleOwner) {
+            when (it) {
+                FOLLOWED -> {
+                    binding.followButton.text = getString(R.string.unfollow_election)
+                    viewModel.resetFollowingStatus()
+                }
+                UNFOLLOWED -> {
+                    binding.followButton.text = getString(R.string.follow_election)
+                    viewModel.resetFollowingStatus()
+                }
+                ERROR -> {
+                    viewModel.showToast(getString(R.string.following_election_failed))
+                    viewModel.resetFollowingStatus()
+                }
+                else -> {
+                }
+            }
+        }
 
         return binding.root
     }

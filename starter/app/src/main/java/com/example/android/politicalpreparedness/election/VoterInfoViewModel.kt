@@ -7,12 +7,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.network.models.Division
 import com.example.android.politicalpreparedness.repository.ElectionRepository
+import com.example.android.politicalpreparedness.utils.ElectionFollowingStatus
+import com.example.android.politicalpreparedness.utils.ElectionFollowingStatus.ERROR
+import com.example.android.politicalpreparedness.utils.ElectionFollowingStatus.LOADING
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class VoterInfoViewModel(private val electionRepository: ElectionRepository) : ViewModel() {
 
     val voterInfo = electionRepository.voterInfo
+
+    private val _electionFollowingStatus = MutableLiveData<ElectionFollowingStatus>()
+    val electionFollowingStatus: LiveData<ElectionFollowingStatus>
+        get() = _electionFollowingStatus
 
     private val _showToast = MutableLiveData<String>()
     val showToast: LiveData<String>
@@ -35,6 +41,12 @@ class VoterInfoViewModel(private val electionRepository: ElectionRepository) : V
                 Log.e("VoterInfoViewModel", e.message.toString())
                 showToast("Error: ${e.message.toString()}")
             }
+        }
+    }
+
+    fun getCurrentFollowingStatus(electionId: Int) {
+        viewModelScope.launch {
+            _electionFollowingStatus.value = electionRepository.getFollowingStatus(electionId)
         }
     }
 
@@ -62,13 +74,21 @@ class VoterInfoViewModel(private val electionRepository: ElectionRepository) : V
         _openBallotInfo.value = null
     }
 
-    //TODO: Add var and methods to support loading URLs
+    fun toggleElectionFollowed() {
+        if (_electionFollowingStatus.value != LOADING) {
+            _electionFollowingStatus.value = LOADING
+            val electionId = voterInfo.value?.election?.id
+            if (electionId != null) {
+                viewModelScope.launch {
+                    _electionFollowingStatus.value = electionRepository.toggleElectionFollowed(electionId)
+                }
+            } else {
+                _electionFollowingStatus.value = ERROR
+            }
+        }
+    }
 
-    //TODO: Add var and methods to save and remove elections to local database
-    //TODO: cont'd -- Populate initial state of save button to reflect proper action based on election saved status
-
-    /**
-     * Hint: The saved state can be accomplished in multiple ways. It is directly related to how elections are saved/removed from the database.
-     */
-
+    fun resetFollowingStatus() {
+        _electionFollowingStatus.value = null
+    }
 }

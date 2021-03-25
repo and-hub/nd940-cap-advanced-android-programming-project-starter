@@ -11,6 +11,9 @@
     <string name="election_information">Election Information</string>
     <string name="no_data_available_for_this_election">No data available for this election.</string>
     <string name="error_loading_voter_info">Error loading voter info!</string>
+    <string name="unfollow_election">Unfollow Election</string>
+    <string name="follow_election">Follow Election</string>
+    <string name="following_election_failed">Following election failed</string>
 
 
 </resources>
