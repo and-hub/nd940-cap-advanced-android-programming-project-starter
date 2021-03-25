@@ -1,27 +1,32 @@
 package com.example.android.politicalpreparedness.election
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
+import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import com.example.android.politicalpreparedness.repository.ElectionRepository
 import com.example.android.politicalpreparedness.utils.toFormattedString
 
 class VoterInfoFragment : Fragment() {
 
+    private lateinit var binding: FragmentVoterInfoBinding
     private lateinit var viewModel: VoterInfoViewModel
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
-        val binding = FragmentVoterInfoBinding.inflate(inflater)
+        binding = FragmentVoterInfoBinding.inflate(inflater)
 
         val database = ElectionDatabase.getInstance(requireContext())
         val electionRepository = ElectionRepository(database)
@@ -36,26 +41,31 @@ class VoterInfoFragment : Fragment() {
 
         viewModel.voterInfo.observe(viewLifecycleOwner) {
             it?.let {
-                binding.electionName.title = it.election.name
-                binding.electionDate.text = it.election.electionDay.toFormattedString()
-                val address = it.state?.first()?.electionAdministrationBody?.correspondenceAddress?.toFormattedString()
-                if (address != null) {
-                    binding.address.text = address
-                    binding.addressGroup.visibility = VISIBLE
-                } else {
-                    binding.addressGroup.visibility = GONE
-                }
+                setViewsVisibilityAndContent(it)
             }
         }
-        //TODO: Add binding values
 
-        //TODO: Populate voter info -- hide views without provided data.
-        /**
-        Hint: You will need to ensure proper data is provided from previous fragment.
-         */
+        viewModel.showToast.observe(viewLifecycleOwner) { message ->
+            if (!message.isNullOrEmpty()) {
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                viewModel.showToastComplete()
+            }
+        }
 
+        viewModel.openVotingLocations.observe(viewLifecycleOwner) { url ->
+            if (!url.isNullOrEmpty()) {
+                openWebPage(url)
+                viewModel.openVotingLocationsComplete()
+            }
+        }
 
-        //TODO: Handle loading of URLs
+        viewModel.openBallotInfo.observe(viewLifecycleOwner) { url ->
+            if (!url.isNullOrEmpty()) {
+                openWebPage(url)
+                viewModel.openBallotInfoComplete()
+            }
+        }
+
 
         //TODO: Handle save button UI state
         //TODO: cont'd Handle save button clicks
@@ -63,6 +73,35 @@ class VoterInfoFragment : Fragment() {
         return binding.root
     }
 
-    //TODO: Create method to load URL intents
+    private fun setViewsVisibilityAndContent(voterInfo: VoterInfoResponse) {
+        binding.electionName.title = voterInfo.election.name
+        binding.electionDate.text = voterInfo.election.electionDay.toFormattedString()
 
+        val votingLocationsUrl = voterInfo.state?.first()?.electionAdministrationBody?.votingLocationFinderUrl
+        binding.stateLocations.visibility = if (votingLocationsUrl.isNullOrEmpty()) GONE else VISIBLE
+
+        val ballotInfoUrl = voterInfo.state?.first()?.electionAdministrationBody?.ballotInfoUrl
+        binding.stateBallot.visibility = if (ballotInfoUrl.isNullOrEmpty()) GONE else VISIBLE
+
+        binding.stateHeader.visibility =
+                if (binding.stateLocations.visibility == GONE &&
+                        binding.stateBallot.visibility == GONE) GONE
+                else VISIBLE
+
+        val address = voterInfo.state?.first()?.electionAdministrationBody?.correspondenceAddress?.toFormattedString()
+        if (address != null) {
+            binding.address.text = address
+            binding.addressGroup.visibility = VISIBLE
+        } else {
+            binding.addressGroup.visibility = GONE
+        }
+    }
+
+    private fun openWebPage(url: String) {
+        val webpage: Uri = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        if (intent.resolveActivity(requireContext().packageManager) != null) {
+            startActivity(intent)
+        }
+    }
 }
