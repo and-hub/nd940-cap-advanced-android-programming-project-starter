@@ -8,6 +8,7 @@ import com.example.android.politicalpreparedness.database.models.FollowElection
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
+import com.example.android.politicalpreparedness.representative.model.Representative
 import com.example.android.politicalpreparedness.utils.ElectionFollowingStatus
 import com.example.android.politicalpreparedness.utils.ElectionFollowingStatus.*
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +23,10 @@ class ElectionRepository(private val database: ElectionDatabase) {
     private val _voterInfo = MutableLiveData<VoterInfoResponse>()
     val voterInfo: LiveData<VoterInfoResponse>
         get() = _voterInfo
+
+    private val _representatives = MutableLiveData<List<Representative>>()
+    val representatives: LiveData<List<Representative>>
+        get() = _representatives
 
     suspend fun refreshElections() {
         withContext(Dispatchers.IO) {
@@ -66,5 +71,12 @@ class ElectionRepository(private val database: ElectionDatabase) {
                     return@withContext ERROR
                 }
             }
+
+    suspend fun refreshRepresentatives(address: String) {
+        withContext(Dispatchers.IO) {
+            val (offices, officials) = CivicsApi.retrofitService.getRepresentativeResponse(address)
+            _representatives.postValue(offices.flatMap { office -> office.getRepresentatives(officials) })
+        }
+    }
 
 }
