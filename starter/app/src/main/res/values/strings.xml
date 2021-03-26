@@ -16,5 +16,6 @@
     <string name="following_election_failed">Following election failed</string>
     <string name="loading_error_message_format">Error loading %s: %s</string>
     <string name="representatives">representatives</string>
+    <string name="my_representatives">My Representatives</string>
 
 </resources>

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.repository.ElectionRepository
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -13,21 +14,23 @@ class RepresentativeViewModel(private val electionRepository: ElectionRepository
 
     val representatives = electionRepository.representatives
 
-    val address: String = "1600 Amphitheatre Pkwy, Mountain View, CA 94043, United States"
+    val address = MutableLiveData(Address("", "", "", "", ""))
 
     private val _showErrorToast = MutableLiveData<String>()
     val showErrorToast: LiveData<String>
         get() = _showErrorToast
 
     fun refreshRepresentatives() {
-        viewModelScope.launch {
-            try {
-                electionRepository.refreshRepresentatives(address)
-            } catch (e: Exception) {
-                Log.e("RepresentativeViewModel", e.message.toString())
-                _showErrorToast.value = e.message.toString()
+        val addressString = address.value?.toFormattedString()
+        if (!addressString.isNullOrEmpty())
+            viewModelScope.launch {
+                try {
+                    electionRepository.refreshRepresentatives(addressString)
+                } catch (e: Exception) {
+                    Log.e("RepresentativeViewModel", e.message.toString())
+                    _showErrorToast.value = e.message.toString()
+                }
             }
-        }
     }
 
     fun showErrorToastComplete() {

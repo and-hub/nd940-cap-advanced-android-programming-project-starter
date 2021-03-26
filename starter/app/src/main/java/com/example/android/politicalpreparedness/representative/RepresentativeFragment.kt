@@ -6,6 +6,8 @@ import android.location.Location
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -20,19 +22,20 @@ import com.example.android.politicalpreparedness.repository.ElectionRepository
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import java.util.Locale
 
-class RepresentativeFragment : Fragment() {
+class RepresentativeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     companion object {
         //TODO: Add Constant for Location request
     }
 
+    private lateinit var binding: FragmentRepresentativeBinding
     private lateinit var viewModel: RepresentativeViewModel
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
-        val binding = FragmentRepresentativeBinding.inflate(inflater)
+        binding = FragmentRepresentativeBinding.inflate(inflater)
 
         val database = ElectionDatabase.getInstance(requireContext())
         val electionRepository = ElectionRepository(database)
@@ -43,9 +46,11 @@ class RepresentativeFragment : Fragment() {
 
         binding.representativesRecycler.adapter = RepresentativeListAdapter()
 
-        //TODO: Establish bindings
+        setupSpinner()
 
-        //TODO: Establish button listeners for field and location search
+                //TODO: Establish bindings
+
+                //TODO: Establish button listeners for field and location search
 
         viewModel.showErrorToast.observe(viewLifecycleOwner) { message ->
             message?.let {
@@ -60,6 +65,17 @@ class RepresentativeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun setupSpinner() {
+        ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.states,
+                android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.state.adapter = adapter
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -97,6 +113,13 @@ class RepresentativeFragment : Fragment() {
     private fun hideKeyboard() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+        viewModel.address.value?.state = parent.getItemAtPosition(position) as String
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
     }
 
 }
