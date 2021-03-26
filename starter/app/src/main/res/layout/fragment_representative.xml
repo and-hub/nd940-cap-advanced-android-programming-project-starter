@@ -89,6 +89,8 @@
             android:id="@+id/button_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.refreshRepresentatives()}"
+            android:text="@string/find_my_representatives"
             app:layout_constraintTop_toBottomOf="@id/zip" />
 
         <!-- TODO: Add visual styling and content -->
