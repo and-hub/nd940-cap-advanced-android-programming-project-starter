@@ -53,7 +53,7 @@ class RepresentativeFragment : Fragment() {
                 Toast.makeText(
                         context,
                         getString(R.string.loading_error_message_format, getString(R.string.representatives), it),
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_LONG
                 )
                         .show()
                 viewModel.showErrorToastComplete()
