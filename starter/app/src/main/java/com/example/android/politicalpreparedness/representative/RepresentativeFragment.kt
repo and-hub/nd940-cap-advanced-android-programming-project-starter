@@ -59,17 +59,6 @@ class RepresentativeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         return binding.root
     }
 
-    private fun setupSpinner() {
-        ArrayAdapter.createFromResource(
-                requireContext(),
-                R.array.states,
-                android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.state.adapter = adapter
-        }
-    }
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         //TODO: Handle location permission result to get location on permission granted
@@ -107,11 +96,23 @@ class RepresentativeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 
+    private fun setupSpinner() {
+        ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.states,
+                android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.stateSpinner.adapter = adapter
+        }
+
+        binding.stateSpinner.onItemSelectedListener = this
+    }
+
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
         viewModel.address.value?.state = parent.getItemAtPosition(position) as String
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-    }
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
 }
