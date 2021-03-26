@@ -17,6 +17,7 @@ import com.example.android.politicalpreparedness.election.ElectionsViewModel
 import com.example.android.politicalpreparedness.election.ElectionsViewModelFactory
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.repository.ElectionRepository
+import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import java.util.Locale
 
 class RepresentativeFragment : Fragment() {
@@ -40,11 +41,9 @@ class RepresentativeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        binding.representativesRecycler.adapter = RepresentativeListAdapter()
+
         //TODO: Establish bindings
-
-        //TODO: Define and assign Representative adapter
-
-        //TODO: Populate Representative adapter
 
         //TODO: Establish button listeners for field and location search
 
