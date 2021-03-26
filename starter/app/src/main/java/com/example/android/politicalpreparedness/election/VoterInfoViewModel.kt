@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.network.models.Division
 import com.example.android.politicalpreparedness.repository.ElectionRepository
 import com.example.android.politicalpreparedness.utils.ElectionFollowingStatus
@@ -20,8 +21,8 @@ class VoterInfoViewModel(private val electionRepository: ElectionRepository) : V
     val electionFollowingStatus: LiveData<ElectionFollowingStatus>
         get() = _electionFollowingStatus
 
-    private val _showToast = MutableLiveData<String>()
-    val showToast: LiveData<String>
+    private val _showToast = MutableLiveData<Int>()
+    val showToast: LiveData<Int>
         get() = _showToast
 
     private val _openVotingLocations = MutableLiveData<String>()
@@ -39,7 +40,7 @@ class VoterInfoViewModel(private val electionRepository: ElectionRepository) : V
                 electionRepository.getVoterInfo(address, electionId)
             } catch (e: Exception) {
                 Log.e("VoterInfoViewModel", e.message.toString())
-                showToast("Error: ${e.message.toString()}")
+                showToast(R.string.error_loading_voter_info)
             }
         }
     }
@@ -50,8 +51,8 @@ class VoterInfoViewModel(private val electionRepository: ElectionRepository) : V
         }
     }
 
-    fun showToast(message: String) {
-        _showToast.value = message
+    fun showToast(resId: Int) {
+        _showToast.value = resId
     }
 
     fun showToastComplete() {

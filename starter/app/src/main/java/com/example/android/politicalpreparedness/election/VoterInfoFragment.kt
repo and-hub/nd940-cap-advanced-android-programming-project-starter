@@ -49,9 +49,9 @@ class VoterInfoFragment : Fragment() {
             }
         }
 
-        viewModel.showToast.observe(viewLifecycleOwner) { message ->
-            if (!message.isNullOrEmpty()) {
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        viewModel.showToast.observe(viewLifecycleOwner) { resId ->
+            resId?.let {
+                Toast.makeText(context, resId, Toast.LENGTH_LONG).show()
                 viewModel.showToastComplete()
             }
         }
@@ -81,7 +81,7 @@ class VoterInfoFragment : Fragment() {
                     viewModel.resetFollowingStatus()
                 }
                 ERROR -> {
-                    viewModel.showToast(getString(R.string.following_election_failed))
+                    viewModel.showToast(R.string.following_election_failed)
                     viewModel.resetFollowingStatus()
                 }
                 else -> {

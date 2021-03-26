@@ -13,10 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.database.ElectionDatabase
-import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
-import com.example.android.politicalpreparedness.election.ElectionsViewModel
-import com.example.android.politicalpreparedness.election.ElectionsViewModelFactory
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.repository.ElectionRepository
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
@@ -48,19 +45,14 @@ class RepresentativeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         setupSpinner()
 
-                //TODO: Establish bindings
+        //TODO: Establish bindings
 
-                //TODO: Establish button listeners for field and location search
+        //TODO: Establish button listeners for field and location search
 
-        viewModel.showErrorToast.observe(viewLifecycleOwner) { message ->
-            message?.let {
-                Toast.makeText(
-                        context,
-                        getString(R.string.loading_error_message_format, getString(R.string.representatives), it),
-                        Toast.LENGTH_LONG
-                )
-                        .show()
-                viewModel.showErrorToastComplete()
+        viewModel.showToast.observe(viewLifecycleOwner) { resId ->
+            resId?.let {
+                Toast.makeText(context, resId, Toast.LENGTH_LONG).show()
+                viewModel.showToastComplete()
             }
         }
 

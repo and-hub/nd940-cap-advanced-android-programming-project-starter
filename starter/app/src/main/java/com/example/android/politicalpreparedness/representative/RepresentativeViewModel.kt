@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.repository.ElectionRepository
 import kotlinx.coroutines.launch
@@ -16,9 +17,9 @@ class RepresentativeViewModel(private val electionRepository: ElectionRepository
 
     val address = MutableLiveData(Address("", "", "", "", ""))
 
-    private val _showErrorToast = MutableLiveData<String>()
-    val showErrorToast: LiveData<String>
-        get() = _showErrorToast
+    private val _showToast = MutableLiveData<Int>()
+    val showToast: LiveData<Int>
+        get() = _showToast
 
     fun refreshRepresentatives() {
         val addressString = address.value?.toFormattedString()
@@ -28,13 +29,13 @@ class RepresentativeViewModel(private val electionRepository: ElectionRepository
                     electionRepository.refreshRepresentatives(addressString)
                 } catch (e: Exception) {
                     Log.e("RepresentativeViewModel", e.message.toString())
-                    _showErrorToast.value = e.message.toString()
+                    _showToast.value = R.string.error_loading_representatives
                 }
             }
     }
 
-    fun showErrorToastComplete() {
-        _showErrorToast.value = null
+    fun showToastComplete() {
+        _showToast.value = null
     }
     //TODO: Establish live data for representatives and address
 
