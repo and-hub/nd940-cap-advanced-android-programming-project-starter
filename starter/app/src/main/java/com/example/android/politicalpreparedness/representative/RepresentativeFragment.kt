@@ -6,8 +6,10 @@ import android.location.Location
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
@@ -45,6 +47,18 @@ class RepresentativeFragment : Fragment() {
         //TODO: Populate Representative adapter
 
         //TODO: Establish button listeners for field and location search
+
+        viewModel.showErrorToast.observe(viewLifecycleOwner) { message ->
+            message?.let {
+                Toast.makeText(
+                        context,
+                        getString(R.string.loading_error_message_format, getString(R.string.representatives), it),
+                        Toast.LENGTH_SHORT
+                )
+                        .show()
+                viewModel.showErrorToastComplete()
+            }
+        }
 
         return binding.root
     }
