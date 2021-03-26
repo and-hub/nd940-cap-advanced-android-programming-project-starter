@@ -13,7 +13,7 @@ class RepresentativeViewModel(private val electionRepository: ElectionRepository
 
     val representatives = electionRepository.representatives
 
-    val address: String = ""
+    val address: String = "1600 Amphitheatre Pkwy, Mountain View, CA 94043, United States"
 
     private val _showErrorToast = MutableLiveData<String>()
     val showErrorToast: LiveData<String>
