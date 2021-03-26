@@ -7,9 +7,14 @@ import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
+import com.example.android.politicalpreparedness.election.ElectionsViewModel
+import com.example.android.politicalpreparedness.election.ElectionsViewModelFactory
 import com.example.android.politicalpreparedness.network.models.Address
+import com.example.android.politicalpreparedness.repository.ElectionRepository
 import java.util.Locale
 
 class RepresentativeFragment : Fragment() {
@@ -18,14 +23,20 @@ class RepresentativeFragment : Fragment() {
         //TODO: Add Constant for Location request
     }
 
-    //TODO: Declare ViewModel
+    private lateinit var viewModel: RepresentativeViewModel
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
         val binding = FragmentRepresentativeBinding.inflate(inflater)
+
+        val database = ElectionDatabase.getInstance(requireContext())
+        val electionRepository = ElectionRepository(database)
+        viewModel = ViewModelProvider(this, RepresentativeViewModelFactory(electionRepository)).get(RepresentativeViewModel::class.java)
+
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         //TODO: Establish bindings
 
