@@ -16,5 +16,6 @@
     <string name="following_election_failed">Following election failed</string>
     <string name="error_loading_representatives">Error loading representatives</string>
     <string name="my_representatives">My Representatives</string>
+    <string name="address_cant_be_empty">Address can\'t be empty</string>
 
 </resources>

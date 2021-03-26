@@ -32,6 +32,8 @@ class RepresentativeViewModel(private val electionRepository: ElectionRepository
                     _showToast.value = R.string.error_loading_representatives
                 }
             }
+        else
+            _showToast.value = R.string.address_cant_be_empty
     }
 
     fun showToastComplete() {
