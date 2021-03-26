@@ -36,6 +36,8 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Representative>?) {
     adapter.submitList(data)
 }
 
+
+
 inline fun <reified T> toTypedAdapter(adapter: ArrayAdapter<*>): ArrayAdapter<T>{
     return adapter as ArrayAdapter<T>
 }

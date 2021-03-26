@@ -1,6 +1,5 @@
 package com.example.android.politicalpreparedness.representative.adapter
 
-//import com.example.android.politicalpreparedness.databinding.ViewholderRepresentativeBinding
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
@@ -34,8 +33,8 @@ class RepresentativeViewHolder(val binding: RepresentativeListItemBinding) : Rec
         binding.representative = item
         binding.representativePhoto.setImageResource(R.drawable.ic_profile)
 
-        //TODO: Show social links ** Hint: Use provided helper methods
-        //TODO: Show www link ** Hint: Use provided helper methods
+        item.official.channels?.let { showSocialLinks(it) }
+        item.official.urls?.let { showWWWLinks(it) }
 
         binding.executePendingBindings()
     }
