@@ -11,11 +11,16 @@ import com.example.android.politicalpreparedness.repository.ElectionRepository
 import com.example.android.politicalpreparedness.utils.ElectionFollowingStatus
 import com.example.android.politicalpreparedness.utils.ElectionFollowingStatus.ERROR
 import com.example.android.politicalpreparedness.utils.ElectionFollowingStatus.LOADING
+import com.example.android.politicalpreparedness.utils.LoadingStatus
 import kotlinx.coroutines.launch
 
 class VoterInfoViewModel(private val electionRepository: ElectionRepository) : ViewModel() {
 
     val voterInfo = electionRepository.voterInfo
+
+    private val _loadingStatus = MutableLiveData<LoadingStatus>()
+    val loadingStatus: LiveData<LoadingStatus>
+        get() = _loadingStatus
 
     private val _electionFollowingStatus = MutableLiveData<ElectionFollowingStatus>()
     val electionFollowingStatus: LiveData<ElectionFollowingStatus>
@@ -34,13 +39,16 @@ class VoterInfoViewModel(private val electionRepository: ElectionRepository) : V
         get() = _openBallotInfo
 
     fun getVoterInfo(division: Division, electionId: Int) {
+        _loadingStatus.value = LoadingStatus.LOADING
         val address = "${division.state}, ${division.country}"
         viewModelScope.launch {
             try {
                 electionRepository.getVoterInfo(address, electionId)
+                _loadingStatus.value = LoadingStatus.SUCCESS
             } catch (e: Exception) {
                 Log.e("VoterInfoViewModel", e.message, e)
                 showToast(R.string.error_loading_voter_info)
+                _loadingStatus.value = LoadingStatus.ERROR
             }
         }
     }
