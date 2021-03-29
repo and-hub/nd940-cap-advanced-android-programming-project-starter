@@ -44,7 +44,7 @@ class RepresentativeViewModel(private val electionRepository: ElectionRepository
                     electionRepository.refreshRepresentatives(addressString)
                     _loadingStatus.value = LoadingStatus.SUCCESS
                 } catch (e: Exception) {
-                    Log.e("RepresentativeViewModel", e.message.toString())
+                    Log.e("RepresentativeViewModel", e.message, e)
                     _showToast.value = R.string.error_loading_representatives
                     _loadingStatus.value = LoadingStatus.ERROR
                 }

@@ -49,7 +49,7 @@ class ElectionRepository(private val database: ElectionDatabase) {
             else
                 UNFOLLOWED
         } catch (e: Exception) {
-            Log.e("ElectionRepository", e.message.toString())
+            Log.e("ElectionRepository", e.message, e)
             return@withContext ERROR
         }
     }
@@ -67,7 +67,7 @@ class ElectionRepository(private val database: ElectionDatabase) {
                     } else
                         ERROR
                 } catch (e: Exception) {
-                    Log.e("ElectionRepository", e.message.toString())
+                    Log.e("ElectionRepository", e.message, e)
                     return@withContext ERROR
                 }
             }

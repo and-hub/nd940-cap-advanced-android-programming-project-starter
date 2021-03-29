@@ -18,7 +18,7 @@ class ElectionsViewModel(private val electionRepository: ElectionRepository) : V
             try {
                 electionRepository.refreshElections()
             } catch (e: Exception) {
-                Log.e("ElectionsViewModel", e.message.toString())
+                Log.e("ElectionsViewModel", e.message, e)
             }
         }
     }

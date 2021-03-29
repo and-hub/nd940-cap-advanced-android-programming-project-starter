@@ -39,7 +39,7 @@ class VoterInfoViewModel(private val electionRepository: ElectionRepository) : V
             try {
                 electionRepository.getVoterInfo(address, electionId)
             } catch (e: Exception) {
-                Log.e("VoterInfoViewModel", e.message.toString())
+                Log.e("VoterInfoViewModel", e.message, e)
                 showToast(R.string.error_loading_voter_info)
             }
         }
