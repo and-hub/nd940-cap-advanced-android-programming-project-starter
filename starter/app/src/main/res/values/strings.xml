@@ -18,5 +18,9 @@
     <string name="my_representatives">My Representatives</string>
     <string name="address_cant_be_empty">Address can\'t be empty</string>
     <string name="use_my_location">Use My Location</string>
+    <string name="address_line_1">Address line 1</string>
+    <string name="address_line_2">Address line 2</string>
+    <string name="city">City</string>
+    <string name="zip">Zip</string>
 
 </resources>

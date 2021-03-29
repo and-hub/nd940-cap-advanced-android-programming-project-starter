@@ -36,6 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
+                android:hint="@string/address_line_1"
                 android:inputType="textPostalAddress"
                 android:text="@={viewModel.address.line1}"
                 app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:autofillHints=""
+                android:hint="@string/address_line_2"
                 android:inputType="textPostalAddress"
                 android:text="@={viewModel.address.line2}"
                 app:layout_constraintStart_toStartOf="parent"
@@ -60,6 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
+                android:hint="@string/city"
                 android:inputType="textPostalAddress"
                 android:text="@={viewModel.address.city}"
                 app:layout_constraintEnd_toStartOf="@id/state_spinner"
@@ -87,6 +90,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
+                android:hint="@string/zip"
                 android:inputType="number"
                 android:maxLength="5"
                 android:text="@={viewModel.address.zip}"
@@ -125,7 +129,7 @@
             app:layout_constraintTop_toBottomOf="@+id/form">
 
             <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/representatives_progress_bar"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
