@@ -21,6 +21,10 @@ class RepresentativeViewModel(private val electionRepository: ElectionRepository
     val showToast: LiveData<Int>
         get() = _showToast
 
+    private val _useMyLocation = MutableLiveData<Boolean>()
+    val useMyLocation: LiveData<Boolean>
+        get() = _useMyLocation
+
     fun refreshRepresentatives() {
         val addressString = address.value?.toFormattedString()
         if (!addressString.isNullOrEmpty())
@@ -38,6 +42,14 @@ class RepresentativeViewModel(private val electionRepository: ElectionRepository
 
     fun showToastComplete() {
         _showToast.value = null
+    }
+
+    fun useMyLocation() {
+        _useMyLocation.value = true
+    }
+
+    fun useMyLocationComplete() {
+        _useMyLocation.value = null
     }
     //TODO: Establish live data for representatives and address
 
