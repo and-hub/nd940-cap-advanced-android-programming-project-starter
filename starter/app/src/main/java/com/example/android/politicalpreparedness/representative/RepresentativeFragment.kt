@@ -73,8 +73,12 @@ class RepresentativeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
         viewModel.useMyLocation.observe(viewLifecycleOwner) { useMyLocation ->
-            if (useMyLocation)
-                useMyLocation()
+            useMyLocation?.let {
+                if (useMyLocation) {
+                    useMyLocation()
+                    viewModel.useMyLocationComplete()
+                }
+            }
         }
 
         return binding.root
