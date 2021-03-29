@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.repository.ElectionRepository
+import com.example.android.politicalpreparedness.utils.LoadingStatus
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -16,6 +17,10 @@ class RepresentativeViewModel(private val electionRepository: ElectionRepository
     val representatives = electionRepository.representatives
 
     val address = MutableLiveData(Address("", "", "", "", ""))
+
+    private val _loadingStatus = MutableLiveData<LoadingStatus>()
+    val loadingStatus: LiveData<LoadingStatus>
+        get() = _loadingStatus
 
     private val _showToast = MutableLiveData<Int>()
     val showToast: LiveData<Int>
@@ -30,19 +35,24 @@ class RepresentativeViewModel(private val electionRepository: ElectionRepository
         get() = _useMyLocation
 
     fun refreshRepresentatives() {
+        _loadingStatus.value = LoadingStatus.LOADING
         _hideKeyboard.value = true
         val addressString = address.value?.toFormattedString()
         if (!addressString.isNullOrEmpty())
             viewModelScope.launch {
                 try {
                     electionRepository.refreshRepresentatives(addressString)
+                    _loadingStatus.value = LoadingStatus.SUCCESS
                 } catch (e: Exception) {
                     Log.e("RepresentativeViewModel", e.message.toString())
                     _showToast.value = R.string.error_loading_representatives
+                    _loadingStatus.value = LoadingStatus.ERROR
                 }
             }
-        else
+        else {
             _showToast.value = R.string.address_cant_be_empty
+            _loadingStatus.value = LoadingStatus.ERROR
+        }
     }
 
     fun showToastComplete() {
