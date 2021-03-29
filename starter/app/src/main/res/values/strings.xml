@@ -22,5 +22,6 @@
     <string name="address_line_2">Address line 2</string>
     <string name="city">City</string>
     <string name="zip">Zip</string>
+    <string name="representative_search">Representative Search</string>
 
 </resources>
