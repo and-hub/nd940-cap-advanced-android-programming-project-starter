@@ -21,11 +21,16 @@ class RepresentativeViewModel(private val electionRepository: ElectionRepository
     val showToast: LiveData<Int>
         get() = _showToast
 
+    private val _hideKeyboard = MutableLiveData<Boolean>()
+    val hideKeyboard: LiveData<Boolean>
+        get() = _hideKeyboard
+
     private val _useMyLocation = MutableLiveData<Boolean>()
     val useMyLocation: LiveData<Boolean>
         get() = _useMyLocation
 
     fun refreshRepresentatives() {
+        _hideKeyboard.value = true
         val addressString = address.value?.toFormattedString()
         if (!addressString.isNullOrEmpty())
             viewModelScope.launch {
@@ -42,6 +47,10 @@ class RepresentativeViewModel(private val electionRepository: ElectionRepository
 
     fun showToastComplete() {
         _showToast.value = null
+    }
+
+    fun hideKeyboardComplete() {
+        _hideKeyboard.value = null
     }
 
     fun useMyLocation() {

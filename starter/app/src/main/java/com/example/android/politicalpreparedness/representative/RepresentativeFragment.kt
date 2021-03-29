@@ -56,16 +56,25 @@ class RepresentativeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
-        viewModel.useMyLocation.observe(viewLifecycleOwner) { useMyLocation ->
-            if (useMyLocation)
-                useMyLocation()
-        }
-
         viewModel.showToast.observe(viewLifecycleOwner) { resId ->
             resId?.let {
                 Toast.makeText(context, resId, Toast.LENGTH_LONG).show()
                 viewModel.showToastComplete()
             }
+        }
+
+        viewModel.hideKeyboard.observe(viewLifecycleOwner) { hideKeyboard ->
+            hideKeyboard?.let {
+                if (hideKeyboard) {
+                    hideKeyboard()
+                    viewModel.hideKeyboardComplete()
+                }
+            }
+        }
+
+        viewModel.useMyLocation.observe(viewLifecycleOwner) { useMyLocation ->
+            if (useMyLocation)
+                useMyLocation()
         }
 
         return binding.root
