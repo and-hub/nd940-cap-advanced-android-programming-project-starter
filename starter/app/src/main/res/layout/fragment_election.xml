@@ -16,6 +16,17 @@
         android:layout_height="match_parent"
         tools:context="com.example.android.politicalpreparedness.MainActivity">
 
+        <ProgressBar
+            android:id="@+id/elections_progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/upcoming_elections_recycler"
+            app:layout_constraintEnd_toEndOf="@+id/upcoming_elections_recycler"
+            app:layout_constraintStart_toStartOf="@+id/upcoming_elections_recycler"
+            app:layout_constraintTop_toTopOf="@+id/upcoming_elections_recycler"
+            app:loadingStatus="@{viewModel.loadingStatus}" />
+
         <TextView
             android:id="@+id/upcoming_header_text"
             android:layout_width="0dp"
