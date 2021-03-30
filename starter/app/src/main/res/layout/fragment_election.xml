@@ -29,14 +29,13 @@
 
         <TextView
             android:id="@+id/upcoming_header_text"
+            style="@style/title_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/upcomning_elections"
-            android:textAlignment="center"
-            android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/upcoming_elections_recycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -60,14 +59,13 @@
 
         <TextView
             android:id="@+id/saved_header_text"
+            style="@style/title_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/saved_elections"
-            android:textAlignment="center"
-            android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/saved_elections_recycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

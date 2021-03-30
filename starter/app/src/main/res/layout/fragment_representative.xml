@@ -24,6 +24,7 @@
             <!-- TODO: Add visual styling and content -->
             <TextView
                 android:id="@+id/search_title"
+                style="@style/title_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/representative_search"
@@ -134,14 +135,15 @@
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:loadingStatus="@{viewModel.loadingStatus}"
                 app:layout_constraintBottom_toBottomOf="@+id/representatives_recycler"
                 app:layout_constraintEnd_toEndOf="@+id/representatives_recycler"
                 app:layout_constraintStart_toStartOf="@+id/representatives_recycler"
-                app:layout_constraintTop_toTopOf="@+id/representatives_recycler" />
+                app:layout_constraintTop_toTopOf="@+id/representatives_recycler"
+                app:loadingStatus="@{viewModel.loadingStatus}" />
 
             <TextView
                 android:id="@+id/representative_title"
+                style="@style/title_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/my_representatives"
