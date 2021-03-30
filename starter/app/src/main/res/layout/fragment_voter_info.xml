@@ -59,8 +59,8 @@
             tools:visibility="visible" />
 
         <Button
-            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:id="@+id/state_locations"
+            style="@style/TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -73,8 +73,8 @@
 
         <Button
             android:id="@+id/state_ballot"
+            style="@style/TextButton"
             android:layout_width="wrap_content"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_height="wrap_content"
             android:onClick="@{() -> viewModel.setBallotInfo(viewModel.voterInfo.state[0].electionAdministrationBody.ballotInfoUrl)}"
             android:text="@string/ballot_information"
