@@ -24,5 +24,9 @@
     <string name="zip">Zip</string>
     <string name="representative_search">Representative Search</string>
     <string name="ballot_box_image">Ballot box image</string>
+    <string name="www_icon">WWW icon</string>
+    <string name="facebook_icon">Facebook icon</string>
+    <string name="twitter_icon">Twitter icon</string>
+    <string name="officials_photo">Official\'s photo</string>
 
 </resources>
