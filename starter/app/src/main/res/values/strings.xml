@@ -28,5 +28,6 @@
     <string name="facebook_icon">Facebook icon</string>
     <string name="twitter_icon">Twitter icon</string>
     <string name="officials_photo">Official\'s photo</string>
+    <string name="location_required_error">Location services must be enabled to use your location.</string>
 
 </resources>
