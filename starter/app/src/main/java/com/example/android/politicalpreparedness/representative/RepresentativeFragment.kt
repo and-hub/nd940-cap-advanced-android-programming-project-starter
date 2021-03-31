@@ -107,9 +107,10 @@ class RepresentativeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         locationSettingsResponseTask.addOnFailureListener { exception ->
             if (exception is ResolvableApiException && resolve) {
                 try {
-                    exception.startResolutionForResult(
-                            requireActivity(),
-                            REQUEST_TURN_DEVICE_LOCATION_ON
+                    startIntentSenderForResult(
+                            exception.resolution.intentSender,
+                            REQUEST_TURN_DEVICE_LOCATION_ON,
+                            null, 0, 0, 0, null
                     )
                 } catch (sendEx: IntentSender.SendIntentException) {
                     Log.d("RepresentativeFragment", "Error getting location settings resolution: " + sendEx.message)
