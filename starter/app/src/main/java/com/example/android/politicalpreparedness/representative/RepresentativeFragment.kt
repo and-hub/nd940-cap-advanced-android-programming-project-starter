@@ -123,7 +123,12 @@ class RepresentativeFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 val address = geoCodeLocation(it)
                 viewModel.address.value = address
                 val states = resources.getStringArray(R.array.states)
-                binding.stateSpinner.setSelection(states.indexOf(address.state))
+                binding.stateSpinner.setSelection(
+                        if (states.contains(address.state))
+                            states.indexOf(address.state)
+                        else
+                            0
+                )
             }
         }
     }
