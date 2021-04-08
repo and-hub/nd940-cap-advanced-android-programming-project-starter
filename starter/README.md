@@ -22,7 +22,7 @@ Clone this repository and import into Android Studio
 ```
 git clone https://github.com/and-hub/political-preparedness.git
 ```
-The entire app is located in `/starter` directory.
+The entire app is located in the `/starter` directory.
 
 ## API key
 Place your Google Civic Information API key in [CivicsHttpClient.kt](https://github.com/and-hub/political-preparedness/blob/master/starter/app/src/main/java/com/example/android/politicalpreparedness/network/CivicsHttpClient.kt) file.
