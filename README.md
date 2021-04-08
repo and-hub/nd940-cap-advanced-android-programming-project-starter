@@ -20,7 +20,7 @@ It leverages the following components from the Jetpack library:
 ## Instalation
 Clone this repository and import into Android Studio
 ```
-git clone https://github.com/and-hub/political-preparedness.git
+git clone https://github.com/fbogulak/political-preparedness.git
 ```
 The entire app is located in the `/starter` directory.
 
